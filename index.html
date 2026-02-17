@@ -1,5 +1,4 @@
-
-David Sheva, [17/02/2026 21:30]
+David Sheva, [17/02/2026 21:38]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,80 +9,72 @@ David Sheva, [17/02/2026 21:30]
         body {
             margin: 0;
             padding: 0;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
             background-color: #ffeef2;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden;
-            text-align: center;
-            -webkit-tap-highlight-color: transparent; /* Removes blue box on iPhone tap */
-        }
-
-        .container {
-            width: 90%;
-            padding: 20px;
-            display: flex; /* Fixes layout issues */
-            flex-direction: column;
-            align-items: center;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            overflow: hidden; 
+            touch-action: manipulation;
         }
 
         h1 {
             color: #d63384;
             font-size: 28px;
-            margin-bottom: 40px;
-            line-height: 1.4;
+            margin-bottom: 50px; /* More space so buttons aren't too close */
+            text-align: center;
+            padding: 0 20px;
         }
 
+        /* Container ensures buttons stay in one place initially */
         .btn-container {
             position: relative;
+            width: 300px;
             height: 100px;
-            width: 100%;
             display: flex;
             justify-content: center;
-            gap: 20px; /* Space between buttons */
+            align-items: center;
         }
 
         button {
-            padding: 15px 40px;
+            padding: 15px 35px;
             font-size: 20px;
-            border-radius: 30px;
             border: none;
-            cursor: pointer;
+            border-radius: 50px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.1s;
-            z-index: 100; /* Ensures button is always on top */
-        }
-
-        button:active {
-            transform: scale(0.95);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent; /* Removes iPhone blue tap box */
         }
 
         .yes-btn {
             background-color: #ff4d6d;
             color: white;
+            margin-right: 20px; /* Space between Yes and No */
+            z-index: 10;
         }
 
         .no-btn {
             background-color: #6c757d;
             color: white;
-            position: absolute; /* Allows it to move freely */
+            position: absolute; /* Vital for moving */
+            right: 20px; /* Start position next to Yes */
         }
 
         .hidden { display: none !important; }
 
         video {
-            width: 100%;
+            width: 90%;
             max-width: 350px;
-            border-radius: 15px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             margin-top: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .fireworks { font-size: 50px; margin-bottom: 20px;}
+        .fireworks { font-size: 60px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -92,7 +83,7 @@ David Sheva, [17/02/2026 21:30]
         <h1>Would you forgive me? 🥺</h1>
         <div class="btn-container">
             <button class="yes-btn" onclick="nextPage(2)">Yes</button>
-            <button id="noBtn1" class="no-btn" style="right: 20px;">No</button>
+            <button class="no-btn" onmouseover="moveBtn(this)" ontouchstart="moveBtn(this)">No</button>
         </div>
     </div>
 
@@ -100,72 +91,49 @@ David Sheva, [17/02/2026 21:30]
         <h1>Would you go to a restaurant with me on 8th of March? 🌹</h1>
         <div class="btn-container">
             <button class="yes-btn" onclick="nextPage(3)">Yes</button>
-            <button id="noBtn2" class="no-btn" style="right: 20px;">No</button>
+            <button class="no-btn" onmouseover="moveBtn(this)" ontouchstart="moveBtn(this)">No</button>
         </div>
     </div>
 
-    <div id="page3" class="container hidden">
-        <h1 style="font-size: 32px;">YOU ARE THE BEST! 🎉</h1>
+    <div id="page3" class="container hidden" style="display: flex; flex-direction: column; align-items: center;">
+        <h1 style="margin-bottom: 10px;">YOU ARE THE BEST! 🎉</h1>
         <div class="fireworks">🎆✨❤️</div>
         
-        <video id="veoVideo" playsinline controls loop>
-            <source src="ScreenRecording.mp4" type="video/mp4">
-            Your browser does not support video.
+        <video id="finalVideo" playsinline controls loop>
+            <source src="video.mp4" type="video/mp4">
         </video>
-        
+
         <p style="margin-top: 20px; font-weight: bold; color: #d63384; font-size: 18px;">
             I WILL SEND YOU LOCATION IN DM ✉️❤️
         </p>
     </div>
 
     <script>
-        // Logic to make the "No" button run away
-        function moveButton(btn) {
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 40);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 40);
-            
-            btn.style.position = 'fixed'; // Switching to fixed makes it jump relative to screen
-            btn.style.left = Math.max(20, x) + 'px';
-            btn.style.top = Math.max(20, y) + 'px';
+        function moveBtn(btn) {
+            // Get screen dimensions
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+            // Calculate new random position
+            var newX = Math.random() * (width - 100); // Subtract button width safe zone
+            var newY = Math.random() * (height - 100); // Subtract button height safe zone
+
+            // Force the move
+            btn.style.position = "fixed";
+            btn.style.left = newX + "px";
+            btn.style.top = newY + "px";
         }
 
-        // Add event listeners specifically for iPhone touch
-        document.
-
-David Sheva, [17/02/2026 21:30]
-getElementById('noBtn1').addEventListener('touchstart', function(e) {
-            e.preventDefault(); // Stop normal click
-            moveButton(this);
-        });
-        
-        document.getElementById('noBtn1').addEventListener('mouseover', function() {
-            moveButton(this);
-        });
-
-        document.getElementById('noBtn2').addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            moveButton(this);
-        });
-        
-        document.getElementById('noBtn2').addEventListener('mouseover', function() {
-            moveButton(this);
-        });
-
-        // Page navigation logic
-        function nextPage(pageNumber) {
-            // Hide all pages
+David Sheva, [17/02/2026 21:38]
+function nextPage(pageNumber) {
             document.getElementById('page1').classList.add('hidden');
             document.getElementById('page2').classList.add('hidden');
-            document.getElementById('page3').classList.add('hidden');
-            
-            // Show the requested page
-            const page = document.getElementById('page' + pageNumber);
-            page.classList.remove('hidden');
+            document.getElementById('page3').classList.remove('hidden'); // Fix flex issue
+            document.getElementById('page' + pageNumber).classList.remove('hidden');
 
-            // Play video if on page 3
             if(pageNumber === 3) {
-                const video = document.getElementById('veoVideo');
-                video.play().catch(error => console.log("Auto-play prevented by iPhone settings, user must tap play."));
+                var vid = document.getElementById('finalVideo');
+                vid.play();
             }
         }
     </script>
