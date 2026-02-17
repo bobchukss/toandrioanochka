@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffeef2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            position: relative;
+            height: 150px;
+            width: 100%;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-110%);
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(10%);
+        }
+
+        .hidden { display: none; }
+
+        video {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .fireworks { font-size: 50px; }
+    </style>
+</head>
+<body>
+
+    <div id="page1" class="container">
+        <h1>Would you forgive me? 🥺</h1>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="nextPage(2)">Yes</button>
+            <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()" ontouchstart="moveNo()">No</button>
+        </div>
+    </div>
+
+    <div id="page2" class="container hidden">
+        <h1>Would you go to a restaurant with me on 8th of March to celebrate my birthday and Women’s Day? 🌹</h1>
+        <div class="btn-container">
+            <button id="yesBtn2" onclick="nextPage(3)" style="background-color: #ff4d6d; color: white; position: absolute; left: 50%; transform: translateX(-110%);">Yes</button>
+            <button id="noBtn2" onmouseover="moveNo()" onclick="moveNo()" ontouchstart="moveNo()" style="background-color: #6c757d; color: white; position: absolute; left: 50%; transform: translateX(10%);">No</button>
+        </div>
+    </div>
+
+    <div id="page3" class="container hidden">
+        <h1 id="successText">YOU ARE THE BEST! 🎉</h1>
+        <div class="fireworks">🎆✨🔥</div>
+        <video id="veoVideo" controls autoplay loop>
+            <source src="your-video-link-here.mp4" type="video/mp4">
+        </video>
+        <p style="margin-top: 20px; font-weight: bold; color: #d63384;">I WILL SEND YOU LOCATION IN DM ✉️❤️</p>
+    </div>
+
+    <script>
+        function moveNo() {
+            const noBtns = [document.getElementById('noBtn'), document.getElementById('noBtn2')];
+            noBtns.forEach(btn => {
+                const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+                btn.style.position = 'fixed';
+                btn.style.left = x + 'px';
+                btn.style.top = y + 'px';
+                btn.style.transform = 'none';
+            });
+        }
+
+        function nextPage(pageNumber) {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('page3').classList.add('hidden');
+            document.getElementById('page' + pageNumber).classList.remove('hidden');
+            
+            if(pageNumber === 3) {
+
+David Sheva, [17/02/2026 17:43]
+document.getElementById('veoVideo').play();
+            }
+        }
+    </script>
+</body>
+</html>
