@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For You ❤️</title>
     <style>
-        /* 1. LAYOUT RESET - Ensures things don't overlap */
+        /* 1. LAYOUT RESET */
         body { 
             margin: 0; 
             padding: 20px; 
@@ -16,21 +16,21 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: center; /* Centers everything vertically */
+            justify-content: center;
         }
 
-        /* 2. THE TEXT - Forces spacing below it */
+        /* 2. THE TEXT */
         h1 { 
             color: #d63384; 
-            font-size: 28px; 
+            font-size: 26px; 
             text-align: center; 
-            margin-bottom: 60px; /* Big gap between text and buttons */
+            margin-bottom: 40px; 
             line-height: 1.4;
             z-index: 10;
-            pointer-events: none; /* Text won't block touches */
+            pointer-events: none; 
         }
 
-        /* 3. THE BUTTON AREA - A specific box for buttons */
+        /* 3. THE BUTTON AREA */
         .btn-box { 
             position: relative; 
             width: 100%; 
@@ -54,18 +54,16 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* YES Button - Standard Click */
         .yes { 
             background-color: #ff4d6d; 
             z-index: 100;
-            position: relative; /* Stays in the center */
+            position: relative; 
         }
 
-        /* NO Button - The Runaway */
         .no { 
             background-color: #6c757d; 
-            position: absolute; /* Allows it to jump anywhere */
-            right: 40px; /* Starts slightly to the right */
+            position: absolute; 
+            right: 40px; 
         }
 
         /* PAGES */
@@ -81,41 +79,38 @@
         
         .hidden { display: none !important; }
 
-        video { width: 90%; max-width: 350px; border-radius: 20px; margin-top: 20px; }
+        /* IMAGE STYLE */
+        img { 
+            width: 85%; 
+            max-width: 350px; 
+            border-radius: 20px; 
+            margin-top: 20px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+        }
+        
         .fireworks { font-size: 60px; margin-bottom: 10px; }
     </style>
 
     <script>
         function moveNo(btn) {
-            // Screen limits
             var w = window.innerWidth - 100;
             var h = window.innerHeight - 100;
             
-            // Random numbers
             var x = Math.random() * w;
             var y = Math.random() * h;
             
-            // Force Fixed Position (Teleport mode)
             btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
         function nextPage(id) {
-            // Hide current page
             document.getElementById('p1').classList.add('hidden');
             document.getElementById('p2').classList.add('hidden');
             document.getElementById('p3').classList.add('hidden');
             
-            // Show next page
             var next = document.getElementById(id);
             next.classList.remove('hidden');
-
-            // Play video if on Page 3
-            if (id === 'p3') {
-                var v = document.getElementById('vid');
-                if (v) v.play();
-            }
         }
     </script>
 </head>
@@ -125,13 +120,12 @@
         <h1>Would you forgive me? 🥺</h1>
         <div class="btn-box">
             <button class="yes" onclick="nextPage('p2')">Yes</button>
-            
             <button class="no" ontouchstart="moveNo(this)" onmouseover="moveNo(this)">No</button>
         </div>
     </div>
 
     <div id="p2" class="page hidden">
-        <h1>Would you go to a restaurant with me on 8th of March? 🌹</h1>
+        <h1>Would you go with me in restaurant to celebrate the 8th of March and my birthday? 🌹</h1>
         <div class="btn-box">
             <button class="yes" onclick="nextPage('p3')">Yes</button>
             <button class="no" ontouchstart="moveNo(this)" onmouseover="moveNo(this)">No</button>
@@ -142,10 +136,7 @@
         <h1>YOU ARE THE BEST! 🎉</h1>
         <div class="fireworks">🎆✨❤️</div>
         
-        <video id="vid" playsinline controls loop>
-            <source src="video.mp4" type="video/mp4">
-            <source src="ScreenRecording_02-17-2026 21-27-43_1.mp4" type="video/mp4"> 
-        </video>
+        <img src="photo.jpg" alt="Us">
         
         <p style="color: #d63384; font-weight: bold; margin-top: 20px;">I WILL SEND YOU LOCATION IN DM ✉️❤️</p>
     </div>
