@@ -6,162 +6,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For You ❤️</title>
     <style>
-        /* BASE STYLES */
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            width: 100vw;
-            background-color: #ffeef2;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            -webkit-user-select: none; /* Disables copy/paste text selection */
-        }
-
-        /* SCREENS */
-        .screen {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease;
-        }
-
-        .hidden {
-            opacity: 0;
-            pointer-events: none; /* Prevents clicking hidden buttons */
-            z-index: -1;
-        }
-
-        .active {
-            opacity: 1;
-            z-index: 10;
-        }
-
-        h1 {
-            color: #d63384;
-            font-size: 26px;
-            text-align: center;
-            margin-bottom: 60px;
-            padding: 0 20px;
-            line-height: 1.4;
-        }
-
-        /* BUTTONS */
-        .btn-container {
-            position: relative;
-            width: 300px;
-            height: 100px;
-        }
-
-        button {
-            padding: 15px 40px;
-            font-size: 20px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            position: absolute;
-            -webkit-tap-highlight-color: transparent; /* No grey box on tap */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .yes-btn {
-            background-color: #ff4d6d;
-            left: 20px;
-            z-index: 20; /* High priority */
-        }
-
-        .no-btn {
-            background-color: #6c757d;
-            right: 20px;
-            z-index: 20;
-            transition: top 0.1s, left 0.1s; /* Fast movement */
-        }
-
-        /* VIDEO & FIREWORKS */
-        video {
-            width: 90%;
-            max-width: 350px;
-            border-radius: 15px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+        body { margin: 0; padding: 0; height: 100vh; background-color: #ffeef2; font-family: sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        .fireworks { font-size: 60px; margin-bottom: 10px; }
+        .page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
+        .hidden { display: none !important; }
+        
+        h1 { color: #d63384; font-size: 26px; text-align: center; margin-bottom: 50px; padding: 0 20px; z-index: 10; pointer-events: none; }
+        
+        button { padding: 15px 40px; font-size: 20px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; color: white; z-index: 100; transition: all 0.1s; }
+        
+        .yes { background-color: #ff4d6d; margin-right: 20px; }
+        .no { background-color: #6c757d; position: absolute; } /* Absolute allows movement */
+
+        .btn-box { position: relative; width: 300px; height: 100px; display: flex; justify-content: center; align-items: center; }
+        
+        video { width: 85%; max-width: 350px; border-radius: 20px; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
     </style>
-</head>
-<body>
-
-    <div id="screen1" class="screen active">
-        <h1>Would you forgive me? 🥺</h1>
-        <div class="btn-container">
-            <button class="yes-btn" onclick="nextPage(2)">Yes</button>
-            <button class="no-btn" ontouchstart="moveButton(this)" onclick="moveButton(this)">No</button>
-        </div>
-    </div>
-
-    <div id="screen2" class="screen hidden">
-        <h1>Would you go to a restaurant with me on 8th of March? 🌹</h1>
-        <div class="btn-container">
-            <button class="yes-btn" onclick="nextPage(3)">Yes</button>
-            <button class="no-btn" ontouchstart="moveButton(this)" onclick="moveButton(this)">No</button>
-        </div>
-    </div>
-
-    <div id="screen3" class="screen hidden">
-        <h1>YOU ARE THE BEST! 🎉</h1>
-        <div class="fireworks">🎆✨❤️</div>
-        
-        <video id="finalVideo" playsinline controls loop>
-            <source src="video.mp4" type="video/mp4">
-            <source src="ScreenRecording_02-17-2026 21-27-43_1.mp4" type="video/mp4"> </video>
-        
-        <p style="margin-top: 20px; font-weight: bold; color: #d63384;">I WILL SEND YOU LOCATION IN DM ✉️❤️</p>
-    </div>
 
     <script>
-        function moveButton(btn) {
-            // 1. Calculate random position within the screen
-            // We subtract 100px to ensure it stays visible
-            var x = Math.random() * (window.innerWidth - 120);
-
-David Sheva, [17/02/2026 21:55]
-var y = Math.random() * (window.innerHeight - 120);
-
-            // 2. Force Fixed Position (This breaks it out of the layout)
-            btn.style.position = 'fixed';
+        // We put the script HERE so it loads FIRST
+        function moveNo(btn) {
+            // Force the button to fixed position so it can go anywhere
+            btn.style.position = 'fixed'; 
+            
+            // Calculate random spot
+            var x = Math.random() * (window.innerWidth - 100);
+            var y = Math.random() * (window.innerHeight - 100);
+            
+            // Move it
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
-        function nextPage(pageNumber) {
-            // 1. Hide all screens
-            document.getElementById('screen1').className = 'screen hidden';
-            document.getElementById('screen2').className = 'screen hidden';
-            document.getElementById('screen3').className = 'screen hidden';
+        function next(pageId) {
+            // Hide all pages
+            document.getElementById('p1').classList.add('hidden');
+            document.getElementById('p2').classList.add('hidden');
+            document.getElementById('p3').classList.add('hidden');
+            
+            // Show next page
+            document.getElementById(pageId).classList.remove('hidden');
 
-            // 2. Show the requested screen
-            document.getElementById('screen' + pageNumber).className = 'screen active';
-
-            // 3. Play video if on last page
-            if(pageNumber === 3) {
-                var vid = document.getElementById('finalVideo');
-                if(vid) {
-                    vid.play().catch(function(e){
-                        console.log("Auto-play blocked by iOS, showing controls.");
-                    });
-                }
+            // Play video if it's the last page
+            if (pageId === 'p3') {
+                var v = document.getElementById('vid');
+                if (v) v.play();
             }
         }
     </script>
+</head>
+<body>
+
+    <div id="p1" class="page">
+        <h1>Would you forgive me? 🥺</h1>
+        <div class="btn-box">
+            <button class="yes" onclick="next('p2')" ontouchstart="next('p2')">Yes</button>
+            <button class="no" style="right: 20px;" onclick="moveNo(this)" ontouchstart="moveNo(this)">No</button>
+        </div>
+    </div>
+
+    <div id="p2" class="page hidden">
+        <h1>Would you go to a restaurant with me on 8th of March? 🌹</h1>
+        <div class="btn-box">
+            <button class="yes" onclick="next('p3')" ontouchstart="next('p3')">Yes</button>
+            <button class="no" style="right: 20px;" onclick="moveNo(this)" ontouchstart="moveNo(this)">No</button>
+        </div>
+    </div>
+
+    <div id="p3" class="page hidden">
+        <h1>YOU ARE THE BEST! 🎉</h1>
+        <div style="font-size: 60px;">🎆✨❤️</div>
+        
+        <video id="vid" playsinline controls loop>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+        
+        <p style="color: #d63384; font-weight: bold; margin-top: 20px;">I WILL SEND YOU LOCATION IN DM ✉️❤️</p>
+    </div>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You ❤️</title>
+    <style>
+        body { margin: 0; padding: 0; height: 100vh; background-color: #ffeef2; font-family: sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        .page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
+        .hidden { display: none !important; }
+        
+        h1 { color: #d63384; font-size: 26px; text-align: center; margin-bottom: 50px; padding: 0 20px; z-index: 10; pointer-events: none; }
+        
+        button { padding: 15px 40px; font-size: 20px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; color: white; z-index: 100; transition: all 0.1s; }
+        
+        .yes { background-color: #ff4d6d; margin-right: 20px; }
+        .no { background-color: #6c757d; position: absolute; } /* Absolute allows movement */
+
+        .btn-box { position: relative; width: 300px; height: 100px; display: flex; justify-content: center; align-items: center; }
+        
+        video { width: 85%; max-width: 350px; border-radius: 20px; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    </style>
+
+    <script>
+        // We put the script HERE so it loads FIRST
+        function moveNo(btn) {
+            // Force the button to fixed position so it can go anywhere
+            btn.style.position = 'fixed'; 
+            
+            // Calculate random spot
+            var x = Math.random() * (window.innerWidth - 100);
+            var y = Math.random() * (window.innerHeight - 100);
+            
+            // Move it
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function next(pageId) {
+            // Hide all pages
+            document.getElementById('p1').classList.add('hidden');
+            document.getElementById('p2').classList.add('hidden');
+            document.getElementById('p3').classList.add('hidden');
+            
+            // Show next page
+            document.getElementById(pageId).classList.remove('hidden');
+
+            // Play video if it's the last page
+            if (pageId === 'p3') {
+                var v = document.getElementById('vid');
+                if (v) v.play();
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="p1" class="page">
+        <h1>Would you forgive me? 🥺</h1>
+        <div class="btn-box">
+            <button class="yes" onclick="next('p2')" ontouchstart="next('p2')">Yes</button>
+            <button class="no" style="right: 20px;" onclick="moveNo(this)" ontouchstart="moveNo(this)">No</button>
+        </div>
+    </div>
+
+    <div id="p2" class="page hidden">
+        <h1>Would you go to a restaurant with me on 8th of March? 🌹</h1>
+        <div class="btn-box">
+            <button class="yes" onclick="next('p3')" ontouchstart="next('p3')">Yes</button>
+            <button class="no" style="right: 20px;" onclick="moveNo(this)" ontouchstart="moveNo(this)">No</button>
+        </div>
+    </div>
+
+    <div id="p3" class="page hidden">
+        <h1>YOU ARE THE BEST! 🎉</h1>
+        <div style="font-size: 60px;">🎆✨❤️</div>
+        
+        <video id="vid" playsinline controls loop>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+        
+        <p style="color: #d63384; font-weight: bold; margin-top: 20px;">I WILL SEND YOU LOCATION IN DM ✉️❤️</p>
+    </div>
+
 </body>
 </html>
-
